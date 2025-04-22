@@ -12,7 +12,7 @@ class Latex implements PdfInterface
     private array $dados = [];
     private string $filename = 'document.pdf';
 
-    public function setFilename(string $filename)
+    public function filename(string $filename)
     {
         $this->filename = $filename;
     }

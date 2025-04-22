@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 
 interface PdfInterface
 {
-
+    public function filename(string $filename);
     public function setHeader(View $view);
     public function setTitle(string $title);
     public function setView(string $page, array $data = []);

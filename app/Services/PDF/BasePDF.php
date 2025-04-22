@@ -18,7 +18,7 @@ class BasePDF implements PdfInterface
 
     public function filename(string $filename)
     {
-        $this->provider->setFilename($filename);
+        $this->provider->filename($filename);
         return $this;
     }
 

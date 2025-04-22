@@ -17,18 +17,9 @@ class TesteController extends Controller
     public function __invoke(Request $request)
     {
         $this->pdf
-            ->filename('capeta.pdf')
+            ->filename('document.pdf')
             ->setView('relatorios.tex', [
-                            'Name' => 'John Doe',
-                            'Dob' => '01/01/1990',
-                            'SpecialCharacters' => '$ (a < b) $',
-                            'languages' => [
-                                'English',
-                                'Spanish',
-                                'Italian',
-                                'France',
-                                'Portuguese',
-                            ]
+                            'prefeitura' => 'teste',
                         ]);
 
         return $this->pdf->stream();
