@@ -2,14 +2,24 @@
 
 namespace App\Services\PDF;
 
-use Ismaelw\LaraTeX\LaraTeX;
+use Exception;
+use Illuminate\Contracts\View\View;
+use App\Services\PDF\Providers\Latex;
 use App\Services\PDF\Contracts\PdfInterface;
 
 class BasePDF implements PdfInterface
 {
+    private string $filename = 'document.pdf';
+
     public function __construct(string $provider = '') {
         if($provider === 'latex')
-            $this->provider = new LaraTeX();
+            $this->provider = new Latex();
+    }
+
+    public function filename(string $filename)
+    {
+        $this->provider->setFilename($filename);
+        return $this;
     }
 
     public function setHeader(View $view)
@@ -24,7 +34,8 @@ class BasePDF implements PdfInterface
 
     public function setView(string $page, array $data = [])
     {
-        $this->provider->setView('relatorio.tex', ['dados' => 'prefeitura']);
+        $this->provider->setView($page, $data);
+        return $this;
     }
 
     public function setOrientation(string $orientation)
@@ -34,7 +45,7 @@ class BasePDF implements PdfInterface
 
     public function stream()
     {
-        throw new Exception('No implements');
+        return $this->provider->stream();
     }
 
     public function setFooter(View $view)

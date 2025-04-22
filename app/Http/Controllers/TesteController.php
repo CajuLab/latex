@@ -8,29 +8,29 @@ use App\Services\PDF\BasePDF;
 
 class TesteController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
+    private BasePDF $pdf;
+
+    public function __construct() {
+        $this->pdf = new BasePDF('latex');
+    }
+
     public function __invoke(Request $request)
     {
-        $pdf = new BasePDF('latex');
-        $pdf->setView('relatorios.tex');
-        $pdf->stream();
-        // return (new LaraTeX)->dryRun();
-        // return (new LaraTeX('relatorios.tex'))
-        //             ->with([
-        //                 'prefeitura' => 'PARNAIBA PIAUI'
-        //             ])->inline('matricula.pdf');
-        // return (new LaraTeX('latex.tex'))->with([
-        //     'Name' => 'Luiz Lins',
-        //     'Dob' => '27/10/1985',
-        //     'SpecialCharacters' => '$ (a < b) $',
-        //     'languages' => [
-        //         'Português',
-        //         'Chinês',
-        //         'Espanhol'
-        //     ]
-        // ])->inline('test.pdf');
-        // ])->savePdf(storage_path('app/export/test.pdf'));
+        $this->pdf
+            ->filename('capeta.pdf')
+            ->setView('relatorios.tex', [
+                            'Name' => 'John Doe',
+                            'Dob' => '01/01/1990',
+                            'SpecialCharacters' => '$ (a < b) $',
+                            'languages' => [
+                                'English',
+                                'Spanish',
+                                'Italian',
+                                'France',
+                                'Portuguese',
+                            ]
+                        ]);
+
+        return $this->pdf->stream();
     }
 }
