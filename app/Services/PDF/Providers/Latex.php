@@ -9,7 +9,7 @@ use App\Services\PDF\Contracts\PdfInterface;
 
 class Latex implements PdfInterface
 {
-    private array $dados = [];
+    private array $data = [];
     private string $filename = 'document.pdf';
 
     public function filename(string $filename)
@@ -17,37 +17,40 @@ class Latex implements PdfInterface
         $this->filename = $filename;
     }
 
-    public function setHeader(View $view)
-    {
-        $this->dados['header'] = $title;
-    }
-
     public function setTitle(string $title)
     {
-        $this->dados['title'] = $title;
+        $this->data['title'] = $title;
+    }
+
+    public function setHeader(string $page, array $data = [])
+    {
+        $this->data['header']['page'] = $page;
+        $this->data['header']['data'] = $data;
+    }
+
+    public function setFooter(string $page, array $data = [])
+    {
+        $this->data['footer']['page'] = $page;
+        $this->data['footer']['data'] = $data;
     }
 
     public function setView(string $page, array $data = [])
     {
-        $this->dados['view']['page'] = $page;
-        $this->dados['view']['data'] = $data;
+        $this->data['view']['page'] = $page;
+        $this->data['view']['data'] = $data;
     }
 
     public function setOrientation(string $orientation)
     {
-        $this->dados['orientation'] = $orientation;
+        $this->data['orientation'] = $orientation;
     }
 
     public function stream()
     {
-        return $latex = (new LaraTeX($this->dados['view']['page']))
-        ->with($this->dados['view']['data'])
+        return $this->data;
+        return $latex = (new LaraTeX($this->data['view']['page']))
+        ->with($this->data)
         ->inline($this->filename);
-    }
-
-    public function setFooter(View $view)
-    {
-        $this->dados['footer'] = $view;
     }
 
 }

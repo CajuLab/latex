@@ -9,3 +9,5 @@ Route::get('/', function () {
 });
 
 Route::get('/latex', TesteController::class);
+
+

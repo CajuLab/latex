@@ -22,9 +22,16 @@ class BasePDF implements PdfInterface
         return $this;
     }
 
-    public function setHeader(View $view)
+    public function setHeader(string $page, array $data = [])
     {
-        throw new Exception('No implements');
+        $this->provider->setHeader($page, $data);
+        return $this;
+    }
+
+    public function setFooter(string $page, array $data = [])
+    {
+        $this->provider->setFooter($page, $data);
+        return $this;
     }
 
     public function setTitle(string $title)
@@ -46,10 +53,5 @@ class BasePDF implements PdfInterface
     public function stream()
     {
         return $this->provider->stream();
-    }
-
-    public function setFooter(View $view)
-    {
-        throw new Exception('No implements');
     }
 }

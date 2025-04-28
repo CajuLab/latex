@@ -18,8 +18,14 @@ class TesteController extends Controller
     {
         $this->pdf
             ->filename('document.pdf')
+            ->setHeader('relatorios.header', [
+                'prefeitura' => 'PREFEITURA DA NASSAU',
+            ])
+            ->setFooter('relatorios.footer', [
+                'prefeitura' => 'PREFEITURA DA NASSAU',
+            ])
             ->setView('relatorios.tex', [
-                            'prefeitura' => 'teste',
+                            'prefeitura' => 'PREFEITURA DA NASSAU',
                         ]);
 
         return $this->pdf->stream();
