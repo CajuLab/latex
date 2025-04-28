@@ -9,11 +9,12 @@ use App\Services\PDF\Contracts\PdfInterface;
 
 class BasePDF implements PdfInterface
 {
-    private string $filename = 'document.pdf';
-
-    public function __construct(string $provider = '') {
-        if($provider === 'latex')
-            $this->provider = new Latex();
+    
+    public function __construct(private PdfInterface $provider) {
+        // if($provider === 'latex')
+        //     $this->provider = new Latex();
+        // if($provider === 'wkhtmltopdf')
+        //     $this->provider = new wk();
     }
 
     public function filename(string $filename)
@@ -29,7 +30,7 @@ class BasePDF implements PdfInterface
 
     public function setTitle(string $title)
     {
-        throw new Exception('No implements');
+        $this->provider->filename($title);
     }
 
     public function setView(string $page, array $data = [])

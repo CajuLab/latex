@@ -9,8 +9,13 @@ use App\Services\PDF\Contracts\PdfInterface;
 
 class Latex implements PdfInterface
 {
-    private array $dados = [];
-    private string $filename = 'document.pdf';
+    private LaraTeX $latex;
+
+    public function __construct()
+    {
+        $this->latex = new LaraTeX();
+    }
+    // private string $filename = 'document.pdf';
 
     public function filename(string $filename)
     {
@@ -19,35 +24,40 @@ class Latex implements PdfInterface
 
     public function setHeader(View $view)
     {
-        $this->dados['header'] = $title;
+        // logica pra add o header
+
+        return $this->latex;
     }
 
     public function setTitle(string $title)
     {
-        $this->dados['title'] = $title;
+        $this->latex = $title;
+        return $this;
     }
 
     public function setView(string $page, array $data = [])
     {
-        $this->dados['view']['page'] = $page;
-        $this->dados['view']['data'] = $data;
+        // $this->dados['view']['page'] = $page;
+        // $this->dados['view']['data'] = $data;
     }
 
     public function setOrientation(string $orientation)
     {
-        $this->dados['orientation'] = $orientation;
+        // $this->dados['orientation'] = $orientation;
     }
 
     public function stream()
     {
-        return $latex = (new LaraTeX($this->dados['view']['page']))
-        ->with($this->dados['view']['data'])
-        ->inline($this->filename);
+        return (new LaraTeX('relatorios.tex'))->with([
+            'prefeitura' => 'John Doe'            
+        ])->inline('document');
     }
 
     public function setFooter(View $view)
     {
-        $this->dados['footer'] = $view;
+        // $this->dados['footer'] = $view;
+
+        return $this->latex;
     }
 
 }
