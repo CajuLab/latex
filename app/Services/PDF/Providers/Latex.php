@@ -24,7 +24,7 @@ class Latex implements PdfInterface
 
     public function setHeader(string $page, array $data = [])
     {
-        // $this->data['header']['page'] = $page;
+        $this->data['header']['page'] = $page;
         $this->data['header']['data'] = $data;
     }
 
@@ -48,7 +48,7 @@ class Latex implements PdfInterface
     public function stream()
     {
         return $latex = (new LaraTeX($this->data['view']['page']))
-        ->with($this->data)
+        ->with(['data' => $this->data])
         ->inline($this->filename);
     }
 

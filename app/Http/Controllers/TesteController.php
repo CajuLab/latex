@@ -18,11 +18,8 @@ class TesteController extends Controller
     {
         $this->pdf
             ->filename('document.pdf')
-            ->setHeader('relatorios.header', [
+            ->setHeader('/relatorios/header.tex', [
                 'prefeitura' => 'Dados que vão está dentro do header',
-            ])
-            ->setFooter('relatorios.footer', [
-                'prefeitura' => 'Aqui estara dentro do footer',
             ])
             ->setView('relatorios.tex', [
                             'prefeitura' => 'PREFEITURA DA NASSAU',
