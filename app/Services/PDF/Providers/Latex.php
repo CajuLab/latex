@@ -26,6 +26,8 @@ class Latex implements PdfInterface
     {
         $this->data['header']['page'] = $page;
         $this->data['header']['data'] = $data;
+        $this->data['header']['data']['logo_esquerda'] = storage_path('app/public/logo.png');
+        $this->data['header']['data']['logo_direita'] = storage_path('app/public/logo.png');
     }
 
     public function setFooter(string $page, array $data = [])
@@ -47,7 +49,7 @@ class Latex implements PdfInterface
 
     public function stream()
     {
-        // dd(file_get_contents(resource_path('/views/relatorios/header.blade.php')));
+        // dd((new LaraTeX())->convertHtmlToLatex(file_get_contents(resource_path('/views/relatorios/header.blade.php'))));
         return $latex = (new LaraTeX($this->data['view']['page']))
         ->with(
             [
