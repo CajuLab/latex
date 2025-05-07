@@ -47,13 +47,15 @@ class Latex implements PdfInterface
 
     public function stream()
     {
+        // dd(file_get_contents(resource_path('/views/relatorios/header.blade.php')));
         return $latex = (new LaraTeX($this->data['view']['page']))
         ->with(
             [
                 'data' => $this->data,
-                'header' => (new LaraTeX)->convertHtmlToLatex(
-                    file_get_contents(resource_path('/views/relatorios/header.blade.php'))
-                )
+                'header' => [
+                    'include'=> file_get_contents(resource_path($this->data['header']['page'])),
+                    'data' => $this->data['header']['data']
+                ]
             ]
         )
         ->inline($this->filename);

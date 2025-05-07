@@ -17,8 +17,8 @@ class TesteController extends Controller
     public function __invoke(Request $request)
     {
         $this->pdf
-            ->filename('document.pdf')
-            ->setHeader('/relatorios/header.tex', [
+            ->filename('capeta.pdf')
+            ->setHeader('/views/relatorios/header.blade.php', [
                 'prefeitura' => 'Dados que vão está dentro do header',
             ])
             ->setView('relatorios.tex', [
