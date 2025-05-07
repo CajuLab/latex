@@ -20,7 +20,6 @@ class TesteController extends Controller
             ->filename('document.pdf')
             ->setHeader('relatorios.header', [
                 'prefeitura' => 'Dados que vão está dentro do header',
-                'header' => view(resource_path('relatorios/header.blade.php'))
             ])
             ->setView('relatorios.tex', [
                             'prefeitura' => 'PREFEITURA DA NASSAU',
