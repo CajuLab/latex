@@ -7,9 +7,13 @@ use Ismaelw\LaraTeX\LaraTeX;
 use Illuminate\Contracts\View\View;
 use App\Services\PDF\Contracts\PdfInterface;
 
+
 class Latex implements PdfInterface
 {
-    private array $data = [];
+    private array $content = [];
+    private array $header = [];
+    private array $footer = [];
+    private array $options = [];
     private string $filename = 'document.pdf';
 
     public function filename(string $filename)
@@ -19,48 +23,71 @@ class Latex implements PdfInterface
 
     public function setTitle(string $title)
     {
-        $this->data['title'] = $title;
+        $this->options['title'] = $title;
     }
 
     public function setHeader(string $page, array $data = [])
     {
-        $this->data['header']['page'] = $page;
-        $this->data['header']['data'] = $data;
-        $this->data['header']['data']['logo_esquerda'] = storage_path('app/public/logo.png');
-        $this->data['header']['data']['logo_direita'] = storage_path('app/public/logosecretaria.png');
+        $header = new LatexHeader(...$data);
+        $this->header['data'] = $header;
+        $this->header['page'] = $page;
+
     }
 
     public function setFooter(string $page, array $data = [])
     {
-        $this->data['footer']['page'] = $page;
-        $this->data['footer']['data'] = $data;
+        $this->footer['page'] = $page;
+        $this->footer['data'] = $data;
     }
 
     public function setView(string $page, array $data = [])
     {
-        $this->data['view']['page'] = $page;
-        $this->data['view']['data'] = $data;
+        $this->content['page'] = $page;
+        $this->content['data'] = $data;
     }
 
     public function setOrientation(string $orientation)
     {
-        $this->data['orientation'] = $orientation;
+        $this->options['orientation'] = $orientation;
     }
 
     public function stream()
     {
         // dd((new LaraTeX())->convertHtmlToLatex(file_get_contents(resource_path('/views/relatorios/header.blade.php'))));
-        return $latex = (new LaraTeX($this->data['view']['page']))
-        ->with(
-            [
-                'data' => $this->data,
-                'header' => [
-                    'include'=> file_get_contents(resource_path($this->data['header']['page'])),
-                    'data' => $this->data['header']['data']
+        return (new LaraTeX($this->content['page']))
+            ->with(
+                [
+                    'data' => $this->content['data'],
+                    'header' => [
+                        'include' => file_get_contents(resource_path($this->header['page'])),
+                        'data' => $this->header['data'],
+                    ],
                 ]
-            ]
-        )
-        ->inline($this->filename);
+            )
+            ->inline($this->filename);
     }
 
+}
+
+
+class LatexHeader
+{
+    public function __construct(
+        readonly public string $estado,
+        public ?string $prefeitura = null,
+        readonly public string $secretaria,
+        readonly public ?string $gabinete = null,
+        readonly public string $cnpj,
+        readonly public string $logradouro,
+        public ?string $logo_prefeitura = null,
+        public ?string $logo_secretaria = null,
+    ) {
+        if (!isset($this->logo_prefeitura)) {
+            $this->logo_prefeitura = storage_path('app/public/logo.png');
+        }
+
+        if (!isset($this->logo_secretaria)) {
+            $this->logo_secretaria = storage_path('app/public/logosecretaria.png');
+        }
+    }
 }
