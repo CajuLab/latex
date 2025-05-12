@@ -27,7 +27,7 @@ class Latex implements PdfInterface
         $this->data['header']['page'] = $page;
         $this->data['header']['data'] = $data;
         $this->data['header']['data']['logo_esquerda'] = storage_path('app/public/logo.png');
-        $this->data['header']['data']['logo_direita'] = storage_path('app/public/logo.png');
+        $this->data['header']['data']['logo_direita'] = storage_path('app/public/logosecretaria.png');
     }
 
     public function setFooter(string $page, array $data = [])

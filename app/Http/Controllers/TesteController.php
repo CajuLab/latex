@@ -19,8 +19,13 @@ class TesteController extends Controller
         $this->pdf
             ->filename('capeta.pdf')
             ->setHeader('/views/relatorios/header.blade.php', [
-                'prefeitura' => 'Dados que vão está dentro do header',
-            ])
+                'estado' => 'ESTADO DO PIAUÍ',
+                'prefeitura' => 'PREFEITURA MUNICIPAL DE NOSSA SENHORA DOS REMÉDIOS',
+                'secretaria' => 'SECRETARIA MUNICIPAL DE EDUCAÇÃO',
+                'gabinete' => 'GABINETE DA SECRETÁRIA',
+                'cnpj' => '30.006.293/0001-85',
+                'logradouro' => 'Rua Alfredo Lages, 380 – Centro',
+                ])
             ->setView('relatorios.tex', [
                             'prefeitura' => 'PREFEITURA DA NASSAU',
                         ]);
