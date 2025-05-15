@@ -31,13 +31,14 @@ class Latex implements PdfInterface
         $header = new LatexHeader(...$data);
         $this->header['data'] = $header;
         $this->header['page'] = $page;
-
+        
     }
-
+    
     public function setFooter(string $page, array $data = [])
     {
+        $footer = new LatexFooter(...$data);
+        $this->footer['data'] = $footer;
         $this->footer['page'] = $page;
-        $this->footer['data'] = $data;
     }
 
     public function setView(string $page, array $data = [])
@@ -62,6 +63,11 @@ class Latex implements PdfInterface
                         'include' => file_get_contents(resource_path($this->header['page'])),
                         'data' => $this->header['data'],
                     ],
+                    'footer' => [
+                        'include' => file_get_contents(resource_path($this->footer['page'])),
+                        'data' => $this->footer['data'],
+                    ]
+                    
                 ]
             )
             ->inline($this->filename);
@@ -90,4 +96,12 @@ class LatexHeader
             $this->logo_secretaria = storage_path('app/public/logosecretaria.png');
         }
     }
+}
+class LatexFooter
+{
+    public function __construct(
+        readonly public string $municipio,
+        readonly public string $cep,
+        readonly public string $telefone,
+    ) {}
 }
